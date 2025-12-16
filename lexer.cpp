@@ -51,7 +51,43 @@ static int get_token() {
             return tok_identifier; 
         }
 
+        if (std::isdigit(last_char)) { // if the current character is a digit,
+            std::string num_string;
 
+            do {
+                num_string += last_char;
+                last_char = std::getchar();
+            } while (std::isdigit(last_char) || last_char == '.');
+
+            // we construct a num_string by simply reading a 
+
+            num_val = std::strtod(num_string.c_str(), 0);
+            // the cpp strtod function is how we can convert a numerical string into to a double value
+
+            return tok_number;
+        }
+
+        if (last_char == '#') { // if the current character is a comment, 
+
+            // this line skips past the comment.
+            do {
+                last_char = std::getchar();
+            } while (last_char != EOF && last_char != '\n' && last_char != '\r');
+
+            if (last_char != EOF) {
+                return get_token();
+            }
+
+        }
+
+        // if the file has concluded itself,  we are going to return that the token is the EOF. 
+        if (last_char == EOF) {
+            return tok_EOF;
+        }
+
+        int this_car = last_char;
+        last_char = std::getchar();
+        return this_car;
     }
 
     return -1;
