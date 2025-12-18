@@ -55,10 +55,17 @@ class CallExprAST : public ExprAST {
 // which will represent the PROTOTYPE of a function. this will capture the name, arguments, argument names,
 // (thus implicitly the number of arguments the function takes)
 
-class PrototypeAST {
-    std:string name;
+class PrototypeAST : public ExprAST {
+    std::string name;
     std::vector<std::string> args;
 
     public:
-        PrototypeAST()
-}
+        PrototypeAST(const std::string &name, std::vector<std::string> args):
+            name(name),
+            args(std::move(args))
+        {}
+
+        const std::string &get_name() const {
+            return name;
+        }
+};
